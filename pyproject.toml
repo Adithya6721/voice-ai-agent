@@ -1,0 +1,79 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "local-voice-ai"
+version = "0.1.0"
+description = "Privacy-first, fully local voice AI assistant"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+
+authors = [
+  { name = "local-voice-ai contributors" }
+]
+
+keywords = ["voice", "speech", "whisper", "vad", "asr", "local", "offline"]
+
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Multimedia :: Sound/Audio :: Speech",
+]
+
+dependencies = [
+  "faster-whisper>=1.0.0",
+  "silero-vad>=5.0",
+  "sounddevice>=0.4.6",
+  "numpy>=1.24.0",
+  "scipy>=1.11.0",
+  "onnxruntime>=1.17.0",
+  "torch>=2.1.0",
+  "torchaudio>=2.1.0",
+  "pydantic>=2.0.0",
+  "pydantic-settings>=2.0.0",
+  "python-dotenv>=1.0.0",
+  "rich>=13.0.0",
+  "click>=8.1.0",
+  "PyYAML>=6.0",
+  "loguru>=0.7.0",
+]
+
+[project.optional-dependencies]
+cuda = [
+  "onnxruntime-gpu>=1.17.0",
+]
+dev = [
+  "pytest>=7.4.0",
+  "pytest-asyncio>=0.21.0",
+  "ruff>=0.1.0",
+  "mypy>=1.5.0",
+]
+
+[project.scripts]
+voice-ai = "voice_ai.__main__:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP"]
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"

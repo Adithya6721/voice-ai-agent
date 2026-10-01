@@ -1,0 +1,101 @@
+# ──────────────────────────────────────────────────────
+# Model registry — describes all supported models
+# Adding a new model: add entry here + create its class
+# ──────────────────────────────────────────────────────
+
+vad_models:
+  silero:
+    name: "Silero VAD"
+    description: "Lightweight VAD model by snakers4. Runs on CPU via ONNX."
+    source: "snakers4/silero-vad"
+    format: "onnx"
+    device: "cpu"
+    sample_rate: 16000
+    recommended: true
+
+asr_models:
+  whisper_tiny:
+    name: "Whisper Tiny"
+    size_mb: 39
+    parameters: "39M"
+    multilingual: true
+    model_id: "tiny"
+    source: "openai/whisper-tiny"
+    backend: "faster-whisper"
+    recommended_device: "cpu"
+    wer_librispeech: ~
+
+  whisper_base:
+    name: "Whisper Base"
+    size_mb: 74
+    parameters: "74M"
+    multilingual: true
+    model_id: "base"
+    source: "openai/whisper-base"
+    backend: "faster-whisper"
+    recommended_device: "cpu"
+
+  whisper_small:
+    name: "Whisper Small"
+    size_mb: 244
+    parameters: "244M"
+    multilingual: true
+    model_id: "small"
+    source: "openai/whisper-small"
+    backend: "faster-whisper"
+    recommended_device: "cpu or cuda"
+    recommended: true          # default for first slice
+
+  whisper_medium:
+    name: "Whisper Medium"
+    size_mb: 769
+    parameters: "769M"
+    multilingual: true
+    model_id: "medium"
+    source: "openai/whisper-medium"
+    backend: "faster-whisper"
+    recommended_device: "cuda"
+
+  whisper_large_v3_turbo:
+    name: "Whisper Large v3 Turbo"
+    size_mb: 809
+    parameters: "809M"
+    multilingual: true
+    model_id: "large-v3-turbo"
+    source: "openai/whisper-large-v3-turbo"
+    backend: "faster-whisper"
+    recommended_device: "cuda"
+    notes: "Distilled from large-v3, fewer decoder layers, lower latency"
+
+  parakeet_tdt_0_6b:
+    name: "Parakeet TDT 0.6B v2"
+    size_mb: ~600
+    parameters: "600M"
+    multilingual: false
+    languages: ["en"]
+    source: "nvidia/parakeet-tdt-0.6b-v2"
+    backend: "nemo"
+    recommended_device: "cuda"
+    notes: "NVIDIA's high-performance English ASR. Requires CUDA."
+
+  moonshine_base:
+    name: "Moonshine Base"
+    size_mb: ~60
+    parameters: "~60M"
+    multilingual: false
+    languages: ["en"]
+    source: "UsefulSensors/moonshine"
+    backend: "onnx"
+    recommended_device: "cpu or cuda"
+    notes: "Optimized for on-device low-latency inference"
+
+  sherpa_onnx_zipformer:
+    name: "sherpa-onnx Zipformer"
+    size_mb: ~65
+    parameters: "~65M"
+    multilingual: false
+    languages: ["en"]
+    source: "k2-fsa/sherpa-onnx"
+    backend: "sherpa-onnx"
+    recommended_device: "cpu or cuda"
+    notes: "Streaming ASR with built-in Silero VAD integration"

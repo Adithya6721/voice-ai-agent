@@ -1,0 +1,83 @@
+# ──────────────────────────────────────────────────────
+# Main application configuration
+# All values can be overridden via environment variables
+# ──────────────────────────────────────────────────────
+
+app:
+  name: "local-voice-ai"
+  version: "0.1.0"
+  debug: false
+
+# ── Inference device ──────────────────────────────────
+inference:
+  device: "auto"          # auto | cuda | cpu
+  cuda_device_index: 0
+  # auto: detects CUDA, falls back to CPU gracefully
+
+# ── Audio capture ─────────────────────────────────────
+audio:
+  sample_rate: 16000      # Hz — Silero VAD + Whisper both want 16kHz
+  channels: 1             # mono
+  dtype: "float32"
+  chunk_ms: 32            # VAD chunk size in milliseconds — must give >= 512 samples
+  # chunk_samples = 16000 * 32 / 1000 = 512 samples (minimum for Silero VAD v5+)
+  enhancement:
+    enabled: true
+    hpf_cutoff_hz: 80
+    noise_suppression: true
+    gentle_normalization: true
+
+# ── Voice Activity Detection ──────────────────────────
+vad:
+  model: "silero"
+  threshold: 0.85         # raised from 0.7 — heavily prevents triggering on background noise/fan/room ambience
+  min_speech_duration_ms: 250
+  min_silence_duration_ms: 400
+  speech_pad_ms: 100      # pad around detected speech edges
+  device: "cpu"           # always CPU for VAD — intentional
+
+# ── Automatic Speech Recognition ─────────────────────
+asr:
+  engine: "fallback"      # fallback | parakeet | whisper
+  fallback_chain:
+    - engine: "parakeet"
+      model_size: "parakeet-tdt-v2"
+      name: "Parakeet TDT v2"
+    - engine: "whisper"
+      model_size: "small"
+      name: "Whisper Small"
+    - engine: "whisper"
+      model_size: "distil-small.en"
+      name: "Distil-Whisper"
+    - engine: "whisper"
+      model_size: "base"
+      name: "Whisper Base"
+  whisper:
+    model_size: "small"
+    language: "en"        # en | auto (auto-detect language)
+    task: "transcribe"    # transcribe | translate
+    beam_size: 5
+    best_of: 5
+    patience: 1.0
+    compute_type: "auto"     # auto: int8 on CPU, float16 on CUDA
+
+
+# ── Small Language Model (Post-processing) ───────────
+slm:
+  enabled: true
+  model_id: "HuggingFaceTB/SmolLM2-360M-Instruct"
+  max_new_tokens: 160
+  temperature: 0.1
+  device: "auto"
+
+# ── Pipeline ──────────────────────────────────────────
+pipeline:
+  silence_timeout_s: 2.0  # stop recording after N seconds of silence
+  max_utterance_s: 30.0   # hard cap on single utterance length
+
+
+# ── Logging ───────────────────────────────────────────
+logging:
+  level: "INFO"
+  format: "rich"          # rich | json | plain
+  file: null              # null = console only

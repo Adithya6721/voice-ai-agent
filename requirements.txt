@@ -1,0 +1,34 @@
+# ──────────────────────────────────────────────────────
+# Core runtime dependencies
+# Install with: pip install -r requirements.txt
+# For NVIDIA GPU support: pip install -r requirements.txt -r requirements-cuda.txt
+# ──────────────────────────────────────────────────────
+
+# Speech recognition
+faster-whisper>=1.0.0
+
+# Voice Activity Detection
+silero-vad>=5.0
+
+# Audio I/O
+sounddevice>=0.4.6
+soundfile>=0.12.0
+numpy>=1.24.0
+scipy>=1.11.0
+
+# ONNX runtime (CPU - for Silero VAD)
+onnxruntime>=1.17.0
+
+# PyTorch (CPU build - GPU users should install separately from pytorch.org)
+# For CPU:
+torch>=2.1.0
+torchaudio>=2.1.0
+
+# Configuration & utilities
+pydantic>=2.0.0
+pydantic-settings>=2.0.0
+python-dotenv>=1.0.0
+PyYAML>=6.0
+click>=8.1.0
+rich>=13.0.0
+loguru>=0.7.0

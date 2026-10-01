@@ -1,0 +1,15 @@
+# ──────────────────────────────────────────────────────
+# NVIDIA CUDA GPU acceleration dependencies
+# Install AFTER requirements.txt:
+#   pip install -r requirements-cuda.txt
+#
+# Also install CUDA-enabled PyTorch from pytorch.org:
+#   pip install torch torchaudio --index-url https://download.pytorch.org/whl/cu121
+# ──────────────────────────────────────────────────────
+
+# ONNX with CUDA support (replaces onnxruntime)
+onnxruntime-gpu>=1.17.0
+
+# CTranslate2 with CUDA (faster-whisper backend)
+# Installed automatically with faster-whisper when CUDA is present
+ctranslate2>=4.0.0
